@@ -61,6 +61,7 @@ public class CommandManager implements TabExecutor {
         if (args.length == 1) {
             List<String> list = new ArrayList<>();
             for (SubCommand subCommand : this.subCommands) {
+                // Check permission before send tab list
                 if (!sender.hasPermission(subCommand.getPermission())) {
                     continue;
                 }
