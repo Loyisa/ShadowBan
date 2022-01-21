@@ -27,10 +27,11 @@ public class PlayerListener implements Listener {
         shadowBan.shadowBanList.remove(event.getPlayer().getUniqueId());
     }
 
-    @EventHandler(priority= EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDamaged(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
+
         if (!shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("damagerekt")) {
             return;
         }
@@ -48,8 +49,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (shadowBan.shadowBanList.contains(player.getUniqueId())
-                && shadowBan.getConfigManager().getConfig().getBoolean("modules.randomplace")) {
+        if (!shadowBan.shadowBanList.contains(player.getUniqueId())) {
+            return;
+        }
+
+        if (shadowBan.getConfigManager().getConfig().getBoolean("modules.randomplace")) {
             event.setCancelled(RandomUtils.nextBoolean());
         }
     }
@@ -57,8 +61,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (shadowBan.shadowBanList.contains(player.getUniqueId())
-                && shadowBan.getConfigManager().getConfig().getBoolean("modules.randombreak")) {
+        if (!shadowBan.shadowBanList.contains(player.getUniqueId())) {
+            return;
+        }
+        if (shadowBan.getConfigManager().getConfig().getBoolean("modules.randombreak")) {
             event.setCancelled(RandomUtils.nextBoolean());
         }
     }
