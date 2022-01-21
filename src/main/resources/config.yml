@@ -1,0 +1,26 @@
+#这里是ShadowBan插件的配置文件
+
+#对玩家实施ShadowBan的模式
+#fakelag: 伪装服务器卡顿
+#damagerekt: 修改这名玩家的攻击伤害为0 并增幅被攻击伤害
+method: damagerekt
+
+damagerekt:
+  #取消被ShadowBan列表中的玩家攻击时造成的击退
+  cancelkb: true
+  #攻击ShadowBan列表中玩家时的攻击伤害倍数
+  multiple: 1337
+
+#功能列表
+modules:
+  #当该名玩家在ShadowBan列表中 破坏方块有一半的概率回弹
+  randombreak: true
+
+  #当该名玩家在ShadowBan列表中 放置方块有一半的概率回弹
+  randomplace: true
+
+#数据库
+database:
+  #是否使用数据库?
+  enabled: false
+
