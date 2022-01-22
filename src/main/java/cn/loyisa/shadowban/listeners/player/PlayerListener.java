@@ -2,6 +2,7 @@ package cn.loyisa.shadowban.listeners.player;
 
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.utils.RandomUtils;
+import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,21 +11,31 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.util.Vector;
 
 public class PlayerListener implements Listener {
 
-    private ShadowBan shadowBan;
+    private final ShadowBan shadowBan;
 
     public PlayerListener(ShadowBan shadowBan) {
         this.shadowBan = shadowBan;
     }
 
     @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().load(event.getPlayer()));
+
+    }
+
+    @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        shadowBan.shadowBanMap.remove(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        if (shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
+            TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -53,7 +64,7 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (shadowBan.getConfigManager().getConfig().getBoolean("modules.randomplace")) {
+        if (shadowBan.getConfigManager().getConfig().getBoolean("damagerekt.randomplace")) {
             event.setCancelled(RandomUtils.nextBoolean());
         }
     }
@@ -64,7 +75,7 @@ public class PlayerListener implements Listener {
         if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
             return;
         }
-        if (shadowBan.getConfigManager().getConfig().getBoolean("modules.randombreak")) {
+        if (shadowBan.getConfigManager().getConfig().getBoolean("damagerekt.randombreak")) {
             event.setCancelled(RandomUtils.nextBoolean());
         }
     }
