@@ -6,7 +6,7 @@
 
     <groupId>cn.loyisa</groupId>
     <artifactId>ShadowBan</artifactId>
-    <version>1.0.4-LAZYSHOT</version>
+    <version>1.0.5-LAZYSHOT</version>
     <packaging>jar</packaging>
 
     <name>ShadowBan</name>
