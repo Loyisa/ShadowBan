@@ -25,7 +25,7 @@ public class BanCommand extends SubCommand {
 
     @Override
     protected String getDescription() {
-        return "对这名玩家整活";
+        return "把这名玩家加入ShadowBan列表中";
     }
 
     @Override
@@ -55,11 +55,11 @@ public class BanCommand extends SubCommand {
             Player player = Bukkit.getPlayerExact(args[1]);
             if (player != null) {
                 if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
-                    sender.sendMessage(Messages.ADDING_TO_KICK_LIST.getMessage());
+                    sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
                     shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis() + RandomUtils.nextLong(1800, 3600) * 1000);
                     TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
                 } else {
-                    sender.sendMessage(Messages.ADDED_TO_KICK_LIST.getMessage());
+                    sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
                 }
             } else {
                 sender.sendMessage(Messages.NO_PLAYER.getMessage());

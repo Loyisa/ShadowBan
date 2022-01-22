@@ -12,8 +12,10 @@ public enum Messages {
     NO_PERMISSION(format(PREFIX.getMessage() + "你没有权限使用这个指令!")),
     NO_PLAYER(format(PREFIX.getMessage() + "未找到此玩家!")),
     AVAILABLE_COMMANDS(format("可用指令")),
-    ADDING_TO_KICK_LIST(format(PREFIX.getMessage() + "加入ShadowBan列表中...")),
-    ADDED_TO_KICK_LIST(format(PREFIX.getMessage() + "此玩家已经在ShadowBan列表中了")),
+    ADDING_TO_BAN_LIST(format(PREFIX.getMessage() + "加入ShadowBan列表中...")),
+    ADDED_TO_BAN_LIST(format(PREFIX.getMessage() + "此玩家已经在ShadowBan列表中了")),
+    REMOVEING_FROM_BAN_LIST(format(PREFIX.getMessage() + "从ShadowBan列表移除此玩家中...")),
+    REMOVED_FROM_BAN_LIST(format(PREFIX.getMessage() + "此玩家不在ShadowBan列表中!")),
     RELOAD_PLUGIN(format(PREFIX.getMessage() + "插件配置重载成功"));
 
     private final String message;
