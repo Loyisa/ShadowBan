@@ -5,6 +5,7 @@ import cn.loyisa.shadowban.commands.SubCommand;
 import cn.loyisa.shadowban.enums.Messages;
 import cn.loyisa.shadowban.enums.Permissions;
 import cn.loyisa.shadowban.utils.RandomUtils;
+import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -56,6 +57,7 @@ public class BanCommand extends SubCommand {
                 if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
                     sender.sendMessage(Messages.ADDING_TO_KICK_LIST.getMessage());
                     shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis() + RandomUtils.nextLong(1800, 3600) * 1000);
+                    TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
                 } else {
                     sender.sendMessage(Messages.ADDED_TO_KICK_LIST.getMessage());
                 }

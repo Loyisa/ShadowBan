@@ -46,7 +46,7 @@ public final class ShadowBan extends JavaPlugin {
         packetListener = new PacketListener(this);
         ProtocolLibrary.getProtocolManager().addPacketListener(packetListener);
         // Ban task
-        TaskUtils.taskTimer(new BanTask(this), 0, 100);
+        TaskUtils.taskTimer(new BanTask(this), 0, 20);
     }
 
     @Override

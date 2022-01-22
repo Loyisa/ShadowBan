@@ -33,9 +33,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
-            TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
-        }
+        shadowBan.shadowBanMap.remove(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

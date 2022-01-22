@@ -101,7 +101,6 @@ public class MySQL extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        shadowBan.shadowBanMap.remove(player.getUniqueId());
     }
 
     @Override
