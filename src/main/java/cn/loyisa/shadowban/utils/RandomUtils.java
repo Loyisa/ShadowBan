@@ -14,6 +14,10 @@ public class RandomUtils {
         return (float) nextDouble(min, max);
     }
 
+    public static long nextLong(long min, long max) {
+        return (long) nextDouble(min, max);
+    }
+
     public static double nextDouble(double min, double max) {
         return max + (min - max) * secureRandom.nextDouble();
     }
