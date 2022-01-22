@@ -59,4 +59,8 @@ public final class ShadowBan extends JavaPlugin {
     public ConfigManager getConfigManager() {
         return configManager;
     }
+
+    public StorageManager getStorageManager() {
+        return storageManager;
+    }
 }

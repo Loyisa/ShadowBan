@@ -10,17 +10,26 @@ damagerekt:
   cancelkb: true
   #攻击ShadowBan列表中玩家时的攻击伤害倍数
   multiple: 1337
-
-#功能列表
-modules:
   #当该名玩家在ShadowBan列表中 破坏方块有一半的概率回弹
   randombreak: true
-
   #当该名玩家在ShadowBan列表中 放置方块有一半的概率回弹
   randomplace: true
 
-#数据库
+#可用选项:
+# MySQL
+# Yaml
+storage-method: MySQL
+
+#MySQL数据库
 database:
-  #是否使用数据库?
-  enabled: false
+  #数据库地址(端口也写这里)
+  address: localhost
+  database: shadowban
+  username: shadowban
+  password: 'shadowban'
+  table-prefix: ''
+
+#
+banCommands: ""
+
 

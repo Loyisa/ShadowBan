@@ -17,7 +17,9 @@ public abstract class StorageEngine {
 
     public abstract void close();
 
-    public abstract Long load(Player player);
+    public abstract boolean load(Player player);
 
-    public abstract void save(Player player, Long timestamp);
+    public abstract void save(Player player);
+
+    public abstract void remove(Player player);
 }
