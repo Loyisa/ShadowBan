@@ -3,7 +3,7 @@
 
 ## 功能列表
 - [x] 把玩家放进shadowban列表
-- [ ] 连接数据库读取ShadowBan玩家
+- [X] 连接数据库读取ShadowBan玩家
 
 ## Credits
 CommandManager/TaskUtils by [Nik](https://github.com/NikV2/)
