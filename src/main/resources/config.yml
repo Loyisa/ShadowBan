@@ -29,7 +29,8 @@ database:
   password: 'shadowban'
   table-prefix: ''
 
-#
-banCommands: ""
+#指令列表:
+# 支持placeholderapi
+banCommands: "ban %player_name%"
 
 
