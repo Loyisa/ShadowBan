@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Java setup
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: 8
+          cache: "maven"
+      - name: Build
+        run: ./mvn clean build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ShadowBan
+          path: target/ShadowBan-1.0.4-LAZYSHOT.jar
