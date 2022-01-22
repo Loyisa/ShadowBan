@@ -28,14 +28,12 @@ public class BanTask implements Runnable {
             FileConfiguration config = shadowBan.getConfigManager().getConfig();
             List<String> commandsList = new ArrayList<>();
             if (config.isString("banCommands")) {
-                commandsList.add(PlaceholderAPI.setPlaceholders(player, config.getString("banCommands")));
+                commandsList.add(config.getString("banCommands"));
             } else if (config.isList("banCommands")) {
-                for (String command : config.getStringList("banCommands")) {
-                    commandsList.add(PlaceholderAPI.setPlaceholders(player, command));
-                }
+                commandsList.addAll(config.getStringList("banCommands"));
             }
             for (String command : commandsList) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command));
             }
             shadowBan.getStorageManager().getStorageEngine().remove(player);
         }
