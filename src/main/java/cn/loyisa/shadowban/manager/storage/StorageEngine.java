@@ -1,6 +1,7 @@
 package cn.loyisa.shadowban.manager.storage;
 
 import cn.loyisa.shadowban.ShadowBan;
+import org.bukkit.entity.Player;
 
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public abstract class StorageEngine {
 
     public abstract void close();
 
-    public abstract Map<String, Object> load();
+    public abstract Long load(Player player);
 
-    public abstract Long save();
+    public abstract void save(Player player, Long timestamp);
 }
