@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ShadowBan
-          path: target/ShadowBan-1.0.4-LAZYSHOT.jar
+          path: target/ShadowBan-*.jar
