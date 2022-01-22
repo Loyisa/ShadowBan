@@ -3,6 +3,7 @@ package cn.loyisa.shadowban.commands;
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.commands.subcommands.BanCommand;
 import cn.loyisa.shadowban.commands.subcommands.ReloadCommand;
+import cn.loyisa.shadowban.commands.subcommands.UnbanCommand;
 import cn.loyisa.shadowban.enums.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,6 +24,7 @@ public class CommandManager implements TabExecutor {
 
     public CommandManager(ShadowBan shadowBan) {
         this.subCommands.add(new BanCommand(shadowBan));
+        this.subCommands.add(new UnbanCommand(shadowBan));
         this.subCommands.add(new ReloadCommand(shadowBan));
     }
 
