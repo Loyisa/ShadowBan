@@ -6,12 +6,15 @@ import cn.loyisa.shadowban.listeners.packet.PacketListener;
 import cn.loyisa.shadowban.listeners.player.PlayerListener;
 import cn.loyisa.shadowban.manager.ConfigManager;
 import cn.loyisa.shadowban.manager.StorageManager;
+import cn.loyisa.shadowban.tasks.BanTask;
+import cn.loyisa.shadowban.utils.TaskUtils;
 import com.comphenix.protocol.ProtocolLibrary;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -42,6 +45,8 @@ public final class ShadowBan extends JavaPlugin {
         // 注册ProtocolLib listener
         packetListener = new PacketListener(this);
         ProtocolLibrary.getProtocolManager().addPacketListener(packetListener);
+        // Ban task
+        TaskUtils.taskTimer(new BanTask(this), 0, 100);
     }
 
     @Override
@@ -49,6 +54,10 @@ public final class ShadowBan extends JavaPlugin {
         logger.info(Messages.DISABLE.getMessage());
         this.storageManager.close();
         ProtocolLibrary.getProtocolManager().removePacketListener(packetListener);
+        // unregister all event
+        HandlerList.unregisterAll(this);
+        // cancel all tasks
+        getServer().getScheduler().cancelTasks(this);
         instance = null;
     }
 
