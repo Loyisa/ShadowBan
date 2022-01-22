@@ -2,7 +2,7 @@ name: ShadowBan
 version: '${project.version}'
 authors: [ Loyisa ]
 main: cn.loyisa.shadowban.ShadowBan
-depend: [ ProtocolLib ]
+depend: [ ProtocolLib, PlaceholderAPI ]
 api-version: 1.13
 prefix: ShadowBan
 
