@@ -70,6 +70,7 @@ public class Yaml extends StorageEngine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        shadowBan.shadowBanMap.remove(player.getUniqueId());
     }
 
     @Override
