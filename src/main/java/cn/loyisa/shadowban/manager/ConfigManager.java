@@ -15,7 +15,6 @@ public class ConfigManager {
 
     public ConfigManager(ShadowBan shadowBan) {
         this.shadowBan = shadowBan;
-        this.init();
     }
 
     public void init() {

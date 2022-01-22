@@ -24,7 +24,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        shadowBan.shadowBanList.remove(event.getPlayer().getUniqueId());
+        shadowBan.shadowBanMap.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -35,13 +35,13 @@ public class PlayerListener implements Listener {
         if (!shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("damagerekt")) {
             return;
         }
-        if (shadowBan.shadowBanList.contains(damager.getUniqueId())) {
+        if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())) {
             event.setDamage(0);
             if (shadowBan.getConfigManager().getConfig().getBoolean("damagerekt.cancelkb")) {
                 shadowBan.getServer().getScheduler().runTaskLater(shadowBan, () -> entity.setVelocity(new Vector()), 1L);
             }
         }
-        if (shadowBan.shadowBanList.contains(entity.getUniqueId())) {
+        if (shadowBan.shadowBanMap.containsKey(entity.getUniqueId())) {
             event.setDamage(event.getDamage() * shadowBan.getConfigManager().getConfig().getDouble("damagerekt.multiple"));
         }
     }
@@ -49,7 +49,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (!shadowBan.shadowBanList.contains(player.getUniqueId())) {
+        if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
             return;
         }
 
@@ -61,7 +61,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (!shadowBan.shadowBanList.contains(player.getUniqueId())) {
+        if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
             return;
         }
         if (shadowBan.getConfigManager().getConfig().getBoolean("modules.randombreak")) {
