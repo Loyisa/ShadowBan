@@ -6,4 +6,4 @@
 - [ ] 连接数据库读取ShadowBan玩家
 
 ## Credits
-CommandManager by [Nik](https://github.com/NikV2/)
+CommandManager/TaskUtils by [Nik](https://github.com/NikV2/)
