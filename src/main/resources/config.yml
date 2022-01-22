@@ -1,10 +1,15 @@
 #这里是ShadowBan插件的配置文件
+#当玩家被加入ShadowBan列表后
+#ShadowBan 就会开始限制玩家(取决于模式)
+#同时ShadowBan提供了BanWave功能 会给玩家随机一个被Ban时间
+#到达被ban时间后 执行banCommands的指令
 
 #对玩家实施ShadowBan的模式
 #fakelag: 伪装服务器卡顿
 #damagerekt: 修改这名玩家的攻击伤害为0 并增幅被攻击伤害
 method: damagerekt
 
+#damagerekt模式的配置
 damagerekt:
   #取消被ShadowBan列表中的玩家攻击时造成的击退
   cancelkb: true
@@ -14,6 +19,14 @@ damagerekt:
   randombreak: true
   #当该名玩家在ShadowBan列表中 放置方块有一半的概率回弹
   randomplace: true
+
+#ShadowBan会在最短时间和最长时间中随机挑选一个时间
+#单位: 秒
+banwave:
+  #最短被Ban时间
+  minbantime: 1800
+  #最长被ban时间
+  maxbantime: 3600
 
 #可用选项:
 # MySQL
@@ -29,8 +42,13 @@ database:
   password: 'shadowban'
   table-prefix: ''
 
-#指令列表:
+#当玩家被加入ShadowBan列表后, 会同时进入BanWave 当到达时间后 执行以下指令
 # 支持placeholderapi
+#如果想同时执行多个指令
+#banCommands: "ban %player_name%"
+# - "指令1"
+# - "指令2"
+#指令列表:
 banCommands: "ban %player_name%"
 
 

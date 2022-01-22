@@ -8,6 +8,7 @@ import cn.loyisa.shadowban.utils.RandomUtils;
 import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class BanCommand extends SubCommand {
@@ -55,8 +56,10 @@ public class BanCommand extends SubCommand {
             Player player = Bukkit.getPlayerExact(args[1]);
             if (player != null) {
                 if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
+                    FileConfiguration config = shadowBan.getConfigManager().getConfig();
                     sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
-                    shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis() + RandomUtils.nextLong(1800, 3600) * 1000);
+                    shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis()
+                            + RandomUtils.nextLong(config.getLong("banwave.minbantime"), config.getLong("banwave.maxbantime")) * 1000);
                     TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
                 } else {
                     sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
