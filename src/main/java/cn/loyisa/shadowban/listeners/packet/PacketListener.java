@@ -15,9 +15,7 @@ public class PacketListener extends PacketAdapter {
 
     private static final List<PacketType> LISTENING_PACKETS = new ArrayList<>();
 
-    public PacketListener(ShadowBan shadowBan) {
-        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS);
-        this.shadowBan = shadowBan;
+    static {
         //Listen for every single client packet
         for (PacketType packetType : PacketType.Play.Client.getInstance().values()) {
             if (packetType.isSupported()) {
@@ -30,6 +28,11 @@ public class PacketListener extends PacketAdapter {
                 LISTENING_PACKETS.add(packetType);
             }
         }
+    }
+
+    public PacketListener(ShadowBan shadowBan) {
+        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS);
+        this.shadowBan = shadowBan;
     }
 
     public void onPacketSending(PacketEvent event) {
