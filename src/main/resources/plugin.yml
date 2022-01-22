@@ -12,5 +12,5 @@ commands:
 
 permissions:
   shadowban.use:
-    description: 使用kick指令
+    description: 使用ShadowBan指令
     default: op
