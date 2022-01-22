@@ -1,6 +1,5 @@
 package cn.loyisa.shadowban.utils;
 
-import cn.loyisa.diona.Diona;
 import cn.loyisa.shadowban.ShadowBan;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
