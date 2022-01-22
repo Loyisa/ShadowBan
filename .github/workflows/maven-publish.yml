@@ -19,7 +19,7 @@ jobs:
           java-version: 8
           cache: "maven"
       - name: Build
-        run: ./mvn clean build
+        run: mvn clean build
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
