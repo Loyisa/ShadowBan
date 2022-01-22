@@ -98,10 +98,10 @@ public class MySQL extends StorageEngine {
             statement.setString(1, player.getUniqueId().toString());
             statement.setLong(2, shadowBan.shadowBanMap.get(player.getUniqueId()));
             statement.execute();
-            shadowBan.shadowBanMap.remove(player.getUniqueId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        shadowBan.shadowBanMap.remove(player.getUniqueId());
     }
 
     @Override
