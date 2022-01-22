@@ -15,7 +15,9 @@ public class PacketListener extends PacketAdapter {
 
     private static final List<PacketType> LISTENING_PACKETS = new ArrayList<>();
 
-    static {
+    public PacketListener(ShadowBan shadowBan) {
+        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS);
+        this.shadowBan = shadowBan;
         //Listen for every single client packet
         for (PacketType packetType : PacketType.Play.Client.getInstance().values()) {
             if (packetType.isSupported()) {
@@ -30,14 +32,11 @@ public class PacketListener extends PacketAdapter {
         }
     }
 
-    public PacketListener(ShadowBan shadowBan) {
-        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS);
-        this.shadowBan = shadowBan;
-    }
-
     public void onPacketSending(PacketEvent event) {
-        if (shadowBan.shadowBanList.contains(event.getPlayer().getUniqueId())
-                && shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {
+        if (!shadowBan.shadowBanList.contains(event.getPlayer().getUniqueId())) {
+            return;
+        }
+        if (shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {
             event.setReadOnly(false);
             event.setCancelled(true);
         }
@@ -45,8 +44,10 @@ public class PacketListener extends PacketAdapter {
     }
 
     public void onPacketReceiving(PacketEvent event) {
-        if (shadowBan.shadowBanList.contains(event.getPlayer().getUniqueId())
-                && shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {
+        if (!shadowBan.shadowBanList.contains(event.getPlayer().getUniqueId())) {
+            return;
+        }
+        if (shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {
             event.setReadOnly(false);
             event.setCancelled(true);
         }
