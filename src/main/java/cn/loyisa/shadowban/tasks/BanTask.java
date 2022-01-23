@@ -1,6 +1,7 @@
 package cn.loyisa.shadowban.tasks;
 
 import cn.loyisa.shadowban.ShadowBan;
+import cn.loyisa.shadowban.utils.TaskUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,7 +36,10 @@ public class BanTask implements Runnable {
             }
             for (String command : commandsList) {
                 // 运行指令 并处理Placeholder
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command));
+                TaskUtils.task(() -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command));
+                });
+
             }
             // 从数据库删除该名玩家
             shadowBan.getStorageManager().getStorageEngine().remove(player);
