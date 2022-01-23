@@ -31,7 +31,7 @@ banwave:
 #可用选项:
 # MySQL
 # Yaml
-storage-method: MySQL
+storage-method: Yaml
 
 #MySQL数据库
 database:
