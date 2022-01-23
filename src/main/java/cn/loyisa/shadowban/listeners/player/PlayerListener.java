@@ -45,6 +45,9 @@ public class PlayerListener implements Listener {
             return;
         }
         if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())) {
+            if (shadowBan.getConfigManager().getConfig().getBoolean("damagerekt.randomhit")) {
+                event.setCancelled(RandomUtils.nextBoolean());
+            }
             event.setDamage(0);
             if (shadowBan.getConfigManager().getConfig().getBoolean("damagerekt.cancelkb")) {
                 shadowBan.getServer().getScheduler().runTaskLater(shadowBan, () -> entity.setVelocity(new Vector()), 1L);

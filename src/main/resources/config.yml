@@ -11,6 +11,8 @@ method: damagerekt
 
 #damagerekt模式的配置
 damagerekt:
+  #当该名玩家在ShadowBan列表中 攻击的时候随机取消
+  randomhit: true
   #取消被ShadowBan列表中的玩家攻击时造成的击退
   cancelkb: true
   #攻击ShadowBan列表中玩家时的攻击伤害倍数
