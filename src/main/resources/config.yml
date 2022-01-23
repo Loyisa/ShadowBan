@@ -41,6 +41,9 @@ database:
   username: shadowban
   password: 'shadowban'
   table-prefix: ''
+  usessl: false
+  characterencoding: utf8
+  useunicode: true
 
 #当玩家被加入ShadowBan列表后, 会同时进入BanWave 当到达时间后 执行以下指令
 # 支持placeholderapi

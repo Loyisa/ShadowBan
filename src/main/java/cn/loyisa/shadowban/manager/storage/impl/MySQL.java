@@ -25,9 +25,10 @@ public class MySQL extends StorageEngine {
         hikari.setPoolName("ShadowBan-Hikari");
         hikari.setJdbcUrl("jdbc:mysql://" + config.getString("database.address") + "/" + config.getString("database.database"));
         hikari.addDataSourceProperty("user", config.getString("database.username"));
-        hikari.addDataSourceProperty("password", config.get("database.password"));
-        hikari.addDataSourceProperty("useUnicode", true);
-        hikari.addDataSourceProperty("characterEncoding", "utf8");
+        hikari.addDataSourceProperty("password", config.getString("database.password"));
+        hikari.addDataSourceProperty("useUnicode", config.getBoolean("database.useunicode"));
+        hikari.addDataSourceProperty("characterEncoding", config.getString("database.characterencoding"));
+        hikari.addDataSourceProperty("useSSL", config.getBoolean("database.usessl"));
         shadowBan.getLogger().info("MySQL/MariaDB connecting...");
         if (isConnected()) {
             shadowBan.getLogger().info("MySQL/MariaDB connected!");
