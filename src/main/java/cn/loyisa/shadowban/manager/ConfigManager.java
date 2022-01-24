@@ -8,7 +8,7 @@ import java.io.File;
 
 public class ConfigManager {
 
-    private ShadowBan shadowBan;
+    private final ShadowBan shadowBan;
 
     private File file;
     private FileConfiguration config;
