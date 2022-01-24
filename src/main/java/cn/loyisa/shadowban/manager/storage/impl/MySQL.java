@@ -42,8 +42,9 @@ public class MySQL extends StorageEngine {
     private void createTable() {
         try (Connection con = hikari.getConnection();
              Statement statement = con.createStatement()) {
+            String tableprefix = config.getString("database.tableprefix");
             statement.executeUpdate(
-                    "create table if not exists `" + config.getString("database.tableprefix") + "shadowban`(" +
+                    "create table if not exists `" + (tableprefix != null ? tableprefix : "") + "shadowban`(" +
                             "`uuid`             VARCHAR(36)        NOT NULL," +
                             "`bantime`          BIGINT             NOT NULL," +
                             " PRIMARY KEY (`uuid`)" +
