@@ -50,7 +50,7 @@ database:
 #当玩家被加入ShadowBan列表后, 会同时进入BanWave 当到达时间后 执行以下指令
 # 支持placeholderapi
 #如果想同时执行多个指令
-#banCommands: "ban %player_name%"
+#banCommands:
 # - "指令1"
 # - "指令2"
 #指令列表:
