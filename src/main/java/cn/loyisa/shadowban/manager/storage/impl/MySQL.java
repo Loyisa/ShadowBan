@@ -46,6 +46,7 @@ public class MySQL extends StorageEngine {
             statement.executeUpdate(
                     "create table if not exists `" + (tableprefix != null ? tableprefix : "") + "shadowban`(" +
                             "`uuid`             VARCHAR(36)        NOT NULL," +
+                            "`playername`       VARCHAR(16)        NOT NULL," +
                             "`bantime`          BIGINT             NOT NULL," +
                             " PRIMARY KEY (`uuid`)" +
                             ") DEFAULT CHARSET = utf8mb4;");
@@ -72,8 +73,9 @@ public class MySQL extends StorageEngine {
 
     @Override
     public boolean load(Player player) {
+        String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
-             PreparedStatement statement = con.prepareStatement("SELECT * FROM " + config.getString("database.tableprefix") + "shadowban WHERE uuid=?")) {
+             PreparedStatement statement = con.prepareStatement("SELECT * FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
             statement.setString(1, player.getUniqueId().toString());
             try (ResultSet rs = statement.executeQuery()) {
                 // Query player record
@@ -93,12 +95,14 @@ public class MySQL extends StorageEngine {
 
     @Override
     public void save(Player player) {
+        String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement(
-                     "INSERT INTO " + config.getString("database.tableprefix") + "shadowban (`uuid`,`bantime`) VALUES (?,?)" +
-                             " on duplicate key update bantime=values(bantime)")) {
+                     "INSERT INTO " + (tableprefix != null ? tableprefix : "") + "shadowban (`uuid`, `playername`, `bantime`) VALUES (?,?,?)" +
+                             " on duplicate key update playername=values(playername), bantime=values(bantime)")) {
             statement.setString(1, player.getUniqueId().toString());
-            statement.setLong(2, shadowBan.shadowBanMap.get(player.getUniqueId()));
+            statement.setString(2, player.getName());
+            statement.setLong(3, shadowBan.shadowBanMap.get(player.getUniqueId()));
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
