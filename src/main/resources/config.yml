@@ -15,8 +15,10 @@ damagerekt:
   randomhit: true
   #取消被ShadowBan列表中的玩家攻击时造成的击退
   cancelkb: true
+  #ShadowBan列表中的玩家的攻击伤害倍率
+  multiple1: 0
   #攻击ShadowBan列表中玩家时的攻击伤害倍数
-  multiple: 1337
+  multiple2: 1337
   #当该名玩家在ShadowBan列表中 破坏方块有一半的概率回弹
   randombreak: true
   #当该名玩家在ShadowBan列表中 放置方块有一半的概率回弹
