@@ -7,6 +7,7 @@ import cn.loyisa.shadowban.enums.Permissions;
 import cn.loyisa.shadowban.utils.RandomUtils;
 import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -53,7 +54,8 @@ public class BanCommand extends SubCommand {
     protected void perform(CommandSender sender, String[] args) {
         if (args.length == 2) {
             // 获取玩家名
-            Player player = Bukkit.getPlayerExact(args[1]);
+            OfflinePlayer player1 = Bukkit.getOfflinePlayer(args[1]);
+            Player player = (Player) player1;
             if (player != null) {
                 if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
                     FileConfiguration config = shadowBan.getConfigManager().getConfig();
