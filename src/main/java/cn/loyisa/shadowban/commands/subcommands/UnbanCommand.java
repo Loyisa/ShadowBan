@@ -65,6 +65,7 @@ public class UnbanCommand extends SubCommand {
             } else {
                 sender.sendMessage(Messages.REMOVED_FROM_BAN_LIST.getMessage());
             }
+
         }
     }
 }

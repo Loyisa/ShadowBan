@@ -9,8 +9,6 @@ import cn.loyisa.shadowban.manager.StorageManager;
 import cn.loyisa.shadowban.tasks.BanTask;
 import cn.loyisa.shadowban.utils.TaskUtils;
 import com.comphenix.protocol.ProtocolLibrary;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 

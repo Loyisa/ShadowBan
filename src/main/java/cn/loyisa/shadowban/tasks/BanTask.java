@@ -36,9 +36,7 @@ public class BanTask implements Runnable {
             }
             for (String command : commandsList) {
                 // 运行指令 并处理Placeholder
-                TaskUtils.task(() -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command));
-                });
+                TaskUtils.task(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command)));
 
             }
             // 从数据库删除该名玩家
