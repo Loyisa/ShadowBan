@@ -47,29 +47,17 @@ public class PlayerListener implements Listener {
         }
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
-        // 如果攻击者和被攻击者都在ShadowBan列表中
-        if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())
-                && shadowBan.shadowBanMap.containsKey(entity.getUniqueId())) {
-            return;
-        }
-        // 如果攻击者在ShadowBan列表中
         if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())) {
-            // 随机取消攻击者伤害
-            if (config.getBoolean("damagerekt.randomhit") && RandomUtils.nextBoolean()) {
-                event.setCancelled(true);
-            } else {
-                // 设置攻击者伤害
-                event.setDamage(event.getFinalDamage() * config.getDouble("damagerekt.multiple1"));
-                // 取消攻击击退
-                if (config.getBoolean("damagerekt.cancelkb")) {
-                    shadowBan.getServer().getScheduler().runTaskLater(shadowBan, () -> entity.setVelocity(new Vector()), 1L);
-                }
+            if (config.getBoolean("damagerekt.randomhit")) {
+                event.setCancelled(RandomUtils.nextBoolean());
+            }
+            event.setDamage(0);
+            if (config.getBoolean("damagerekt.cancelkb")) {
+                shadowBan.getServer().getScheduler().runTaskLater(shadowBan, () -> entity.setVelocity(new Vector()), 1L);
             }
         }
-        // 如果被攻击者在ShadowBan列表中
         if (shadowBan.shadowBanMap.containsKey(entity.getUniqueId())) {
-            // 设置攻击伤害
-            event.setDamage(event.getFinalDamage() * config.getDouble("damagerekt.multiple2"));
+            event.setDamage(event.getDamage() * config.getDouble("damagerekt.multiple"));
         }
     }
 
@@ -79,6 +67,7 @@ public class PlayerListener implements Listener {
         if (event.isCancelled() || !shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
             return;
         }
+
         if (config.getBoolean("damagerekt.randomplace")) {
             event.setCancelled(RandomUtils.nextBoolean());
         }

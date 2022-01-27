@@ -3,6 +3,8 @@ package cn.loyisa.shadowban.manager.storage;
 import cn.loyisa.shadowban.ShadowBan;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 public abstract class StorageEngine {
 
     protected final ShadowBan shadowBan;

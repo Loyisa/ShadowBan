@@ -1,10 +1,10 @@
 package cn.loyisa.shadowban.utils;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class RandomUtils {
 
-    private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
 
     public static int nextInt(int min, int max) {
         return (int) nextDouble(min, max);
@@ -19,11 +19,11 @@ public class RandomUtils {
     }
 
     public static double nextDouble(double min, double max) {
-        return max + (min - max) * random.nextDouble();
+        return max + (min - max) * secureRandom.nextDouble();
     }
 
     public static boolean nextBoolean() {
-        return random.nextBoolean();
+        return secureRandom.nextBoolean();
     }
 
     /**
@@ -33,7 +33,7 @@ public class RandomUtils {
      * @return 如果成了就返回true
      */
     public static boolean nextProbability(int probability) {
-        return random.nextInt(100) <= probability;
+        return secureRandom.nextInt(100) <= probability;
     }
 
 }

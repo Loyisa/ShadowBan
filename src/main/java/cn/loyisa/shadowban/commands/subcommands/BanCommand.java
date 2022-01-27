@@ -54,20 +54,20 @@ public class BanCommand extends SubCommand {
     protected void perform(CommandSender sender, String[] args) {
         if (args.length == 2) {
             // 获取玩家名
-            OfflinePlayer player1 = Bukkit.getOfflinePlayer(args[1]);
-            Player player = (Player) player1;
-            if (player != null) {
-                if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
-                    FileConfiguration config = shadowBan.getConfigManager().getConfig();
-                    sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
-                    shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis()
-                            + RandomUtils.nextLong(config.getLong("banwave.minbantime"), config.getLong("banwave.maxbantime")) * 1000);
-                    TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
-                } else {
-                    sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
-                }
-            } else {
+            OfflinePlayer offp = Bukkit.getOfflinePlayer(args[1]);
+            if (offp == null || !offp.isOnline()){
                 sender.sendMessage(Messages.NO_PLAYER.getMessage());
+                return;
+            }
+            Player player = offp.getPlayer();
+            if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
+                FileConfiguration config = shadowBan.getConfigManager().getConfig();
+                sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
+                shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis()
+                        + RandomUtils.nextLong(config.getLong("banwave.minbantime"), config.getLong("banwave.maxbantime")) * 1000);
+                TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
+            } else {
+                sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
             }
         }
     }

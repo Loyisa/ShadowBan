@@ -64,7 +64,6 @@ public class Yaml extends StorageEngine {
             }
         }
         FileConfiguration config = YamlConfiguration.loadConfiguration(playerDataFile);
-        config.set("PlayerName", player.getName());
         config.set("BanTime", shadowBan.shadowBanMap.get(player.getUniqueId()));
         try {
             config.save(playerDataFile);

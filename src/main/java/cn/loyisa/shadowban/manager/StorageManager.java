@@ -9,7 +9,7 @@ public class StorageManager {
 
     private StorageEngine storageEngine;
 
-    private final ShadowBan shadowBan;
+    private ShadowBan shadowBan;
 
     public StorageManager(ShadowBan shadowBan) {
         this.shadowBan = shadowBan;
