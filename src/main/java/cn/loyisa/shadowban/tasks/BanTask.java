@@ -27,17 +27,17 @@ public class BanTask implements Runnable {
             }
             Player player = Bukkit.getPlayer(uuid);
             FileConfiguration config = shadowBan.getConfigManager().getConfig();
-            List<String> commandsList = new ArrayList<>();
             // 判断指令配置
             if (config.isString("banCommands")) {
-                commandsList.add(config.getString("banCommands"));
-            } else if (config.isList("banCommands")) {
-                commandsList.addAll(config.getStringList("banCommands"));
-            }
-            for (String command : commandsList) {
                 // 运行指令 并处理Placeholder
-                TaskUtils.task(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command)));
-
+                TaskUtils.task(() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, config.getString("banCommands"))));
+            } else if (config.isList("banCommands")) {
+                TaskUtils.task(() -> {
+                    for (String command : config.getStringList("banCommands")) {
+                        // 运行指令 并处理Placeholder
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(player, command));
+                    }
+                });
             }
             // 从数据库删除该名玩家
             shadowBan.getStorageManager().getStorageEngine().remove(player);
