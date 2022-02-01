@@ -52,20 +52,10 @@ public class UnbanCommand extends SubCommand {
     protected void perform(CommandSender sender, String[] args) {
         if (args.length == 2) {
             // 获取玩家名
-            OfflinePlayer offp = Bukkit.getOfflinePlayer(args[1]);
-            if (offp == null || !offp.isOnline()){
-                sender.sendMessage(Messages.NO_PLAYER.getMessage());
-                return;
-            }
-            Player player = offp.getPlayer();
-            if (shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
-                sender.sendMessage(Messages.REMOVEING_FROM_BAN_LIST.getMessage());
-                shadowBan.shadowBanMap.remove(player.getUniqueId());
-                TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().remove(player));
-            } else {
-                sender.sendMessage(Messages.REMOVED_FROM_BAN_LIST.getMessage());
-            }
-
+            OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+            sender.sendMessage(Messages.REMOVEING_FROM_BAN_LIST.getMessage());
+            shadowBan.shadowBanMap.remove(player.getUniqueId());
+            TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().remove(player));
         }
     }
 }

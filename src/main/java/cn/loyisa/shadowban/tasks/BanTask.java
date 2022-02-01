@@ -4,6 +4,7 @@ import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.utils.TaskUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -25,7 +26,11 @@ public class BanTask implements Runnable {
             if (System.currentTimeMillis() < shadowBan.shadowBanMap.get(uuid)) {
                 continue;
             }
-            Player player = Bukkit.getPlayer(uuid);
+            OfflinePlayer offp = Bukkit.getOfflinePlayer(uuid);
+            if (offp == null || !offp.isOnline()){
+                return;
+            }
+            Player player = offp.getPlayer();
             FileConfiguration config = shadowBan.getConfigManager().getConfig();
             List<String> commandsList = new ArrayList<>();
             // 判断指令配置
