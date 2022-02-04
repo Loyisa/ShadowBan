@@ -56,7 +56,7 @@ public class BanListCommand extends SubCommand {
             shadowBan.shadowBanMap.forEach(new BiConsumer<UUID, Long>() {
                 @Override
                 public void accept(UUID uuid, Long aLong) {
-                    sender.sendMessage(Bukkit.getPlayer(uuid).getName() + " - 剩余时间: " + ((aLong - System.currentTimeMillis()) / 1000) + " 秒");
+                    sender.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + " - 剩余时间: " + ((aLong - System.currentTimeMillis()) / 1000) + " 秒");
                 }
             });
         }

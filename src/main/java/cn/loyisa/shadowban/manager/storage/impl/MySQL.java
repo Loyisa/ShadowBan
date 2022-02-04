@@ -3,6 +3,7 @@ package cn.loyisa.shadowban.manager.storage.impl;
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.manager.storage.StorageEngine;
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -72,7 +73,7 @@ public class MySQL extends StorageEngine {
     }
 
     @Override
-    public boolean load(Player player) {
+    public boolean load(OfflinePlayer player) {
         String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement("SELECT * FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
@@ -94,7 +95,7 @@ public class MySQL extends StorageEngine {
     }
 
     @Override
-    public void save(Player player) {
+    public void save(OfflinePlayer player) {
         String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement(
@@ -110,9 +111,10 @@ public class MySQL extends StorageEngine {
     }
 
     @Override
-    public void remove(Player player) {
+    public void remove(OfflinePlayer player) {
+        String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
-             PreparedStatement statement = con.prepareStatement("DELETE FROM " + config.getString("database.tableprefix") + "shadowban WHERE uuid=?")) {
+             PreparedStatement statement = con.prepareStatement("DELETE FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
             statement.setString(1, player.getUniqueId().toString());
             statement.execute();
         } catch (SQLException e) {

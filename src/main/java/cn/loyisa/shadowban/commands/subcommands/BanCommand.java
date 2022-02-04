@@ -54,12 +54,7 @@ public class BanCommand extends SubCommand {
     protected void perform(CommandSender sender, String[] args) {
         if (args.length == 2) {
             // 获取玩家名
-            OfflinePlayer offp = Bukkit.getOfflinePlayer(args[1]);
-            if (offp == null || !offp.isOnline()){
-                sender.sendMessage(Messages.NO_PLAYER.getMessage());
-                return;
-            }
-            Player player = offp.getPlayer();
+            OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
             if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
                 FileConfiguration config = shadowBan.getConfigManager().getConfig();
                 sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());

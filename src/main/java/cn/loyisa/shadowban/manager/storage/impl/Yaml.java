@@ -2,6 +2,7 @@ package cn.loyisa.shadowban.manager.storage.impl;
 
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.manager.storage.StorageEngine;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class Yaml extends StorageEngine {
 
     // 如果true就说明这人在ShadowBan列表里
     @Override
-    public boolean load(Player player) {
+    public boolean load(OfflinePlayer player) {
         File playerDataFile = new File(playerDataDir, player.getUniqueId() + ".yml");
         // 检查是否有数据
         if (!playerDataFile.exists()) {
@@ -54,7 +55,7 @@ public class Yaml extends StorageEngine {
     }
 
     @Override
-    public void save(Player player) {
+    public void save(OfflinePlayer player) {
         File playerDataFile = new File(playerDataDir, player.getUniqueId() + ".yml");
         if (!playerDataFile.exists()) {
             try {
@@ -74,7 +75,7 @@ public class Yaml extends StorageEngine {
     }
 
     @Override
-    public void remove(Player player) {
+    public void remove(OfflinePlayer player) {
         File playerDataFile = new File(playerDataDir, player.getUniqueId() + ".yml");
         if (playerDataFile.exists()) {
             playerDataFile.delete();
