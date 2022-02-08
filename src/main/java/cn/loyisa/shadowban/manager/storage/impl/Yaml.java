@@ -49,13 +49,13 @@ public class Yaml extends StorageEngine {
                 return false;
             }
             // 放Map里
-            shadowBan.shadowBanMap.put(player.getUniqueId(), config.getLong("BanTime"));
+            shadowBan.getBanManager().add(player.getUniqueId(), config.getLong("BanTime"));
             return true;
         }
     }
 
     @Override
-    public void save(OfflinePlayer player) {
+    public void save(OfflinePlayer player, Long time) {
         File playerDataFile = new File(playerDataDir, player.getUniqueId() + ".yml");
         if (!playerDataFile.exists()) {
             try {
@@ -66,7 +66,7 @@ public class Yaml extends StorageEngine {
         }
         FileConfiguration config = YamlConfiguration.loadConfiguration(playerDataFile);
         config.set("PlayerName", player.getName());
-        config.set("BanTime", shadowBan.shadowBanMap.get(player.getUniqueId()));
+        config.set("BanTime", time);
         try {
             config.save(playerDataFile);
         } catch (IOException e) {
@@ -81,6 +81,4 @@ public class Yaml extends StorageEngine {
             playerDataFile.delete();
         }
     }
-
-
 }

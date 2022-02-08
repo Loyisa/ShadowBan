@@ -53,12 +53,9 @@ public class BanListCommand extends SubCommand {
     protected void perform(CommandSender sender, String[] args) {
         if (args.length == 1) {
             sender.sendMessage("在当前房间中，以下玩家正等待处决: ");
-            shadowBan.shadowBanMap.forEach(new BiConsumer<UUID, Long>() {
-                @Override
-                public void accept(UUID uuid, Long aLong) {
-                    sender.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + " - 剩余时间: " + ((aLong - System.currentTimeMillis()) / 1000) + " 秒");
-                }
-            });
+            shadowBan.getBanManager().getShadowBanMap().forEach(
+                    (uuid, aLong) -> sender.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + " - 剩余时间: " + ((aLong - System.currentTimeMillis()) / 1000) + " 秒")
+            );
         }
     }
 }

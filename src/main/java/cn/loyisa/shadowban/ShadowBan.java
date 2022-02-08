@@ -4,6 +4,7 @@ import cn.loyisa.shadowban.commands.CommandManager;
 import cn.loyisa.shadowban.enums.Messages;
 import cn.loyisa.shadowban.listeners.packet.PacketListener;
 import cn.loyisa.shadowban.listeners.player.PlayerListener;
+import cn.loyisa.shadowban.manager.BanManager;
 import cn.loyisa.shadowban.manager.ConfigManager;
 import cn.loyisa.shadowban.manager.StorageManager;
 import cn.loyisa.shadowban.tasks.BanTask;
@@ -18,13 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public final class ShadowBan extends JavaPlugin {
-    // 储存踢出玩家的列表
-    public Map<UUID, Long> shadowBanMap = new ConcurrentHashMap<>();
     private static ShadowBan instance;
     public static Logger logger;
     private PacketListener packetListener;
     private ConfigManager configManager;
     private StorageManager storageManager;
+    private BanManager banManager;
 
     @Override
     public void onEnable() {
@@ -43,6 +43,8 @@ public final class ShadowBan extends JavaPlugin {
         // 注册ProtocolLib listener
         packetListener = new PacketListener(this);
         ProtocolLibrary.getProtocolManager().addPacketListener(packetListener);
+        // 注册ban manager
+        banManager = new BanManager(this);
         // Ban task
         TaskUtils.taskTimerAsync(new BanTask(this), 0, 20);
     }
@@ -69,5 +71,9 @@ public final class ShadowBan extends JavaPlugin {
 
     public StorageManager getStorageManager() {
         return storageManager;
+    }
+
+    public BanManager getBanManager() {
+        return banManager;
     }
 }

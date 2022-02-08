@@ -37,7 +37,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        shadowBan.shadowBanMap.remove(player.getUniqueId());
+        shadowBan.getBanManager().remove(player);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -48,12 +48,12 @@ public class PlayerListener implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         // 如果攻击者和被攻击者都在ShadowBan列表中
-        if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())
-                && shadowBan.shadowBanMap.containsKey(entity.getUniqueId())) {
+        if (shadowBan.getBanManager().isBanned(damager.getUniqueId())
+                && shadowBan.getBanManager().isBanned(entity.getUniqueId())) {
             return;
         }
         // 如果攻击者在ShadowBan列表中
-        if (shadowBan.shadowBanMap.containsKey(damager.getUniqueId())) {
+        if (shadowBan.getBanManager().isBanned(damager.getUniqueId())) {
             // 随机取消攻击者伤害
             if (config.getBoolean("damagerekt.randomhit") && RandomUtils.nextBoolean()) {
                 event.setCancelled(true);
@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
             }
         }
         // 如果被攻击者在ShadowBan列表中
-        if (shadowBan.shadowBanMap.containsKey(entity.getUniqueId())) {
+        if (shadowBan.getBanManager().isBanned(entity.getUniqueId())) {
             // 设置攻击伤害
             event.setDamage(event.getFinalDamage() * config.getDouble("damagerekt.multiple2"));
         }
@@ -76,7 +76,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (event.isCancelled() || !shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
+        if (event.isCancelled() || shadowBan.getBanManager().isBanned(player)) {
             return;
         }
         if (config.getBoolean("damagerekt.randomplace")) {
@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (event.isCancelled() || !shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
+        if (event.isCancelled() || !shadowBan.getBanManager().isBanned(player.getUniqueId())) {
             return;
         }
         if (config.getBoolean("damagerekt.randombreak")) {

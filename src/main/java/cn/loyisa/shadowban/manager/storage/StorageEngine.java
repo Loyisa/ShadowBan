@@ -18,7 +18,7 @@ public abstract class StorageEngine {
 
     public abstract boolean load(OfflinePlayer player);
 
-    public abstract void save(OfflinePlayer player);
+    public abstract void save(OfflinePlayer player, Long time);
 
     public abstract void remove(OfflinePlayer player);
 }

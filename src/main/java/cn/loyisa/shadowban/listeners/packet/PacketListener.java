@@ -36,7 +36,7 @@ public class PacketListener extends PacketAdapter {
     }
 
     public void onPacketSending(PacketEvent event) {
-        if (!shadowBan.shadowBanMap.containsKey(event.getPlayer().getUniqueId())) {
+        if (shadowBan.getBanManager().isBanned(event.getPlayer())) {
             return;
         }
         if (shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {
@@ -47,7 +47,7 @@ public class PacketListener extends PacketAdapter {
     }
 
     public void onPacketReceiving(PacketEvent event) {
-        if (!shadowBan.shadowBanMap.containsKey(event.getPlayer().getUniqueId())) {
+        if (shadowBan.getBanManager().isBanned(event.getPlayer())) {
             return;
         }
         if (shadowBan.getConfigManager().getConfig().getString("method").equalsIgnoreCase("fakelag")) {

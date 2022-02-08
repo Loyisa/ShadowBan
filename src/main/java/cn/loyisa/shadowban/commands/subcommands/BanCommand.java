@@ -55,12 +55,9 @@ public class BanCommand extends SubCommand {
         if (args.length == 2) {
             // 获取玩家名
             OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-            if (!shadowBan.shadowBanMap.containsKey(player.getUniqueId())) {
-                FileConfiguration config = shadowBan.getConfigManager().getConfig();
+            if (!shadowBan.getBanManager().isBanned(player.getUniqueId())) {
+                shadowBan.getBanManager().ban(player);
                 sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
-                shadowBan.shadowBanMap.put(player.getUniqueId(), System.currentTimeMillis()
-                        + RandomUtils.nextLong(config.getLong("banwave.minbantime"), config.getLong("banwave.maxbantime")) * 1000);
-                TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().save(player));
             } else {
                 sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
             }

@@ -81,7 +81,7 @@ public class MySQL extends StorageEngine {
             try (ResultSet rs = statement.executeQuery()) {
                 // Query player record
                 if (rs.next()) {
-                    shadowBan.shadowBanMap.put(player.getUniqueId(), rs.getLong("bantime"));
+                    shadowBan.getBanManager().add(player.getUniqueId(), rs.getLong("bantime"));
                     return true;
                 } else {
                     return false;
@@ -95,7 +95,7 @@ public class MySQL extends StorageEngine {
     }
 
     @Override
-    public void save(OfflinePlayer player) {
+    public void save(OfflinePlayer player, Long time) {
         String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement(
@@ -103,7 +103,7 @@ public class MySQL extends StorageEngine {
                              " on duplicate key update playername=values(playername), bantime=values(bantime)")) {
             statement.setString(1, player.getUniqueId().toString());
             statement.setString(2, player.getName());
-            statement.setLong(3, shadowBan.shadowBanMap.get(player.getUniqueId()));
+            statement.setLong(3, time);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

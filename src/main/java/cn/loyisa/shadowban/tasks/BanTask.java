@@ -22,10 +22,7 @@ public class BanTask implements Runnable {
 
     @Override
     public void run() {
-        for (UUID uuid : shadowBan.shadowBanMap.keySet()) {
-            if (System.currentTimeMillis() < shadowBan.shadowBanMap.get(uuid)) {
-                continue;
-            }
+        for (UUID uuid : shadowBan.getBanManager().getBanReadyPlayers()) {
             OfflinePlayer offp = Bukkit.getOfflinePlayer(uuid);
             if (offp == null || !offp.isOnline()){
                 return;
@@ -48,6 +45,4 @@ public class BanTask implements Runnable {
             shadowBan.getStorageManager().getStorageEngine().remove(player);
         }
     }
-
-
 }
