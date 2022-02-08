@@ -8,6 +8,10 @@ prefix: ShadowBan
 
 commands:
   shadowban:
+    aliases:
+      - sban
+      - shadow
+      - sdb
     description: 星河黯淡之处 神迹无法施展的阴暗之中 无辜的百姓们被肆意欺凌 那是邪恶的魔鬼在宣泄他的淫威 而影之驱逐的力量 能够让邪恶失去他们的力量并被强制封印 无上的恩泽将在此刻降临此间 给撒旦们应有的惩罚
 
 permissions:
