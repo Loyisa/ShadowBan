@@ -31,6 +31,11 @@ public class BanManager{
     // 依赖注入
     public BanManager(ShadowBan shadowBan) {
         this.shadowBan = shadowBan;
+
+        // PlugMan支持
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            this.load(onlinePlayer);
+        }
     }
 
     /**
@@ -82,12 +87,12 @@ public class BanManager{
     }
 
     /**
-     * 将玩家移除出 shadow ban缓存
+     * 为该玩家加载数据
      *
-     * @param player 玩家名字
+     * @param player 玩家对象
      */
-    public void remove(Player player) {
-        shadowBanMap.remove(player.getUniqueId());
+    public void load(Player player){
+        TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().load(player));
     }
 
     /**
@@ -97,6 +102,15 @@ public class BanManager{
         if(Bukkit.getPlayer(uuid) == null) return;
 
         shadowBanMap.put(uuid, time);
+    }
+
+    /**
+     * 将玩家移除出 shadow ban缓存
+     *
+     * @param player 玩家名字
+     */
+    public void remove(Player player) {
+        shadowBanMap.remove(player.getUniqueId());
     }
 
     /**

@@ -30,8 +30,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().load(event.getPlayer()));
-
+        shadowBan.getBanManager().load(event.getPlayer());
     }
 
     @EventHandler
