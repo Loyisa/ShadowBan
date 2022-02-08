@@ -25,15 +25,4 @@ public class RandomUtils {
     public static boolean nextBoolean() {
         return random.nextBoolean();
     }
-
-    /**
-     * 炒强无敌概率算法
-     *
-     * @param probability 概率值
-     * @return 如果成了就返回true
-     */
-    public static boolean nextProbability(int probability) {
-        return random.nextInt(100) <= probability;
-    }
-
 }

@@ -13,9 +13,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public final class ShadowBan extends JavaPlugin {
@@ -31,7 +28,7 @@ public final class ShadowBan extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         logger = this.getLogger();
-        logger.info(Messages.LOADUP.getMessage() + getDescription().getVersion());
+        logger.info(Messages.LOAD_UP.getMessage() + getDescription().getVersion());
 
         // 注册配置管理器
         (configManager = new ConfigManager(this)).init();

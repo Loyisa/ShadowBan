@@ -4,11 +4,9 @@ import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.commands.SubCommand;
 import cn.loyisa.shadowban.enums.Messages;
 import cn.loyisa.shadowban.enums.Permissions;
-import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class UnbanCommand extends SubCommand {
 
@@ -53,7 +51,7 @@ public class UnbanCommand extends SubCommand {
         if (args.length == 2) {
             // 获取玩家名
             OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-            sender.sendMessage(Messages.REMOVEING_FROM_BAN_LIST.getMessage());
+            sender.sendMessage(Messages.REMOVING_FROM_BAN_LIST.getMessage());
             shadowBan.getBanManager().unban(player);
         }
     }

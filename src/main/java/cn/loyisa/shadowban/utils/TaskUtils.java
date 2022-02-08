@@ -5,11 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
 public final class TaskUtils {
-
     private static final ShadowBan shadowBan = ShadowBan.getInstance();
-
-    private TaskUtils() {
-    }
 
     public static BukkitTask taskTimer(Runnable runnable, long delay, long interval) {
         return Bukkit.getScheduler().runTaskTimer(shadowBan, runnable, delay, interval);
