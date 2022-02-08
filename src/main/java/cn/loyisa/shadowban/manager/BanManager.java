@@ -92,7 +92,11 @@ public class BanManager{
      * @param player 玩家对象
      */
     public void load(Player player){
-        TaskUtils.taskAsync(() -> shadowBan.getStorageManager().getStorageEngine().load(player));
+        TaskUtils.taskAsync(() -> {
+            shadowBan.getStorageManager().getStorageEngine().load(player).ifPresent(time -> {
+                add(player.getUniqueId(), time);
+            });
+        });
     }
 
     /**

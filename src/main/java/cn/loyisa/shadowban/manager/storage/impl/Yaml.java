@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.OptionalLong;
 
 public class Yaml extends StorageEngine {
 
@@ -35,22 +36,20 @@ public class Yaml extends StorageEngine {
 
     // 如果true就说明这人在ShadowBan列表里
     @Override
-    public boolean load(OfflinePlayer player) {
+    public OptionalLong load(OfflinePlayer player) {
         File playerDataFile = new File(playerDataDir, player.getUniqueId() + ".yml");
         // 检查是否有数据
         if (!playerDataFile.exists()) {
-            return false;
+            return OptionalLong.empty();
         } else {
             // 如果有数据 读取封禁时间
             FileConfiguration config = YamlConfiguration.loadConfiguration(playerDataFile);
             // is player's data file empty?
             if (config.getKeys(true).size() == 0) {
                 playerDataFile.delete();
-                return false;
+                return OptionalLong.empty();
             }
-            // 放Map里
-            shadowBan.getBanManager().add(player.getUniqueId(), config.getLong("BanTime"));
-            return true;
+            return OptionalLong.of(config.getLong("BanTime"));
         }
     }
 

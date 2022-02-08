@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.OptionalLong;
 
 public class MySQL extends StorageEngine {
 
@@ -73,7 +74,7 @@ public class MySQL extends StorageEngine {
     }
 
     @Override
-    public boolean load(OfflinePlayer player) {
+    public OptionalLong load(OfflinePlayer player) {
         String tableprefix = config.getString("database.tableprefix");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement("SELECT * FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
@@ -81,16 +82,15 @@ public class MySQL extends StorageEngine {
             try (ResultSet rs = statement.executeQuery()) {
                 // Query player record
                 if (rs.next()) {
-                    shadowBan.getBanManager().add(player.getUniqueId(), rs.getLong("bantime"));
-                    return true;
+                    return OptionalLong.of(rs.getLong("bantime"));
                 } else {
-                    return false;
+                    return OptionalLong.empty();
                 }
             }
         } catch (SQLException e) {
             // if we can't get player data
             e.printStackTrace();
-            return false;
+            return OptionalLong.empty();
         }
     }
 
