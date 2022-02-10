@@ -1,4 +1,7 @@
 # ShadowBan
+
+**[English](README.EN.md)**
+
 灵感来源于COD的ShadowBan机制
 原理:
 当玩家被加入ShadowBan列表后 根据模式限制玩家
