@@ -2,7 +2,6 @@ package cn.loyisa.shadowban.listeners.player;
 
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.utils.RandomUtils;
-import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -72,10 +71,10 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (event.isCancelled() || shadowBan.getBanManager().isBanned(player)) {
+        if (!shadowBan.getBanManager().isBanned(player)) {
             return;
         }
         if (config.getBoolean("damagerekt.randomplace")) {
@@ -83,10 +82,10 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (event.isCancelled() || !shadowBan.getBanManager().isBanned(player.getUniqueId())) {
+        if (!shadowBan.getBanManager().isBanned(player.getUniqueId())) {
             return;
         }
         if (config.getBoolean("damagerekt.randombreak")) {

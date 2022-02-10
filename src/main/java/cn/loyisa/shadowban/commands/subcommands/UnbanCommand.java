@@ -51,8 +51,12 @@ public class UnbanCommand extends SubCommand {
         if (args.length == 2) {
             // 获取玩家名
             OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-            sender.sendMessage(Messages.REMOVING_FROM_BAN_LIST.getMessage());
-            shadowBan.getBanManager().unban(player);
+            if(shadowBan.getBanManager().isBanned(player.getUniqueId())) {
+                sender.sendMessage(Messages.REMOVING_FROM_BAN_LIST.getMessage());
+                shadowBan.getBanManager().unban(player);
+            } else {
+                sender.sendMessage(Messages.REMOVED_FROM_BAN_LIST.getMessage());
+            }
         }
     }
 }
