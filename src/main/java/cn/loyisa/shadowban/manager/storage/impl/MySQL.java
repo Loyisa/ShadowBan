@@ -12,8 +12,8 @@ import java.util.OptionalLong;
 
 public class MySQL extends StorageEngine {
 
-    private static HikariDataSource hikari;
-    private static FileConfiguration config;
+    private HikariDataSource hikari;
+    private FileConfiguration config;
 
     public MySQL(ShadowBan shadowBan) {
         super(shadowBan);
@@ -36,7 +36,7 @@ public class MySQL extends StorageEngine {
             shadowBan.getLogger().info("MySQL/MariaDB connected!");
             createTable();
         } else {
-            shadowBan.getLogger().info("MySQL/MariaDB connection failed! 润了");
+            shadowBan.getLogger().info("MySQL/MariaDB connection failed! 寄了!啊哈哈哈");
             shadowBan.getServer().getPluginManager().disablePlugin(shadowBan);
         }
     }
