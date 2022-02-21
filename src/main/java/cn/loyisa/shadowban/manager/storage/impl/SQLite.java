@@ -95,21 +95,15 @@ public class SQLite extends StorageEngine {
     @Override
     public void save(OfflinePlayer player, Long time) {
         String table = config.getString("database.tableprefix", "") + "shadowban";
+        String uuid = player.getUniqueId().toString();
+        String name = player.getName();
         String updateSql = "UPDATE " + table + " SET " +
-                "uuid=" + player.getUniqueId().toString() +
-                "playername=" + player.getName() +
-                "bantime=" + time;
-        String insertSql = "INSERT INTO " + table + "(`uuid`, `playername`, `bantime`) VALUES (?,?,?)" +
-                "uuid=" + player.getUniqueId().toString() +
-                "playername=" + player.getName() +
-                "bantime=" + time + ")";
-        try (PreparedStatement updateStmt = conn.prepareStatement(updateSql);
-             PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
-            updateStmt.execute();
-            insertStmt.setString(1, player.getUniqueId().toString());
-            insertStmt.setString(2, player.getName());
-            insertStmt.setLong(3, time);
-            insertStmt.execute();
+                "playername='" + name + "', bantime='" + time + "' WHERE `uuid` = '" + uuid + "'";
+        String insertSql = "INSERT INTO " + table + "(`uuid`, `playername`, `bantime`) VALUES (" + uuid + ", " + name + ", " + time + ")";
+        try (PreparedStatement stmt = conn.prepareStatement(
+                conn.prepareStatement("SELECT * FROM " + table + " WHERE `uuid` = '" + player.getUniqueId().toString() + "'").executeQuery().next()
+                        ? updateSql : insertSql)) {
+            stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
