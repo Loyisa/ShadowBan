@@ -22,6 +22,10 @@ public class StorageManager {
                 this.storageEngine = new MySQL(shadowBan);
                 shadowBan.getLogger().info("Storage method: MySQL");
                 break;
+            case "sqlite":
+                this.storageEngine = new SQLite(shadowBan);
+                shadowBan.getLogger().info("Storage method: SQLite");
+                break;
             case "yaml":
                 this.storageEngine = new Yaml(shadowBan);
                 shadowBan.getLogger().info("Storage method: Yaml");
