@@ -98,10 +98,10 @@ public class SQLite extends StorageEngine {
         String uuid = player.getUniqueId().toString();
         String name = player.getName();
         String updateSql = "UPDATE " + table + " SET " +
-                "playername='" + name + "', bantime='" + time + "' WHERE `uuid` = '" + uuid + "'";
-        String insertSql = "INSERT INTO " + table + "(`uuid`, `playername`, `bantime`) VALUES (" + uuid + ", " + name + ", " + time + ")";
+                "playername='" + name + "', bantime='" + time + "' WHERE uuid = '" + uuid + "'";
+        String insertSql = "INSERT INTO " + table + "(uuid, playername, bantime) VALUES ('" + uuid + "', '" + name + "', '" + time + "')";
         try (PreparedStatement stmt = conn.prepareStatement(
-                conn.prepareStatement("SELECT * FROM " + table + " WHERE `uuid` = '" + player.getUniqueId().toString() + "'").executeQuery().next()
+                conn.prepareStatement("SELECT * FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "'").executeQuery().next()
                         ? updateSql : insertSql)) {
             stmt.execute();
         } catch (SQLException e) {

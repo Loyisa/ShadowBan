@@ -3,6 +3,7 @@ package cn.loyisa.shadowban.manager;
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.manager.storage.StorageEngine;
 import cn.loyisa.shadowban.manager.storage.impl.MySQL;
+import cn.loyisa.shadowban.manager.storage.impl.SQLite;
 import cn.loyisa.shadowban.manager.storage.impl.Yaml;
 
 public class StorageManager {
