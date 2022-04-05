@@ -2,6 +2,7 @@ package cn.loyisa.shadowban.listeners.packet;
 
 import cn.loyisa.shadowban.ShadowBan;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerOptions;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
@@ -31,7 +32,7 @@ public class PacketListener extends PacketAdapter {
     }
 
     public PacketListener(ShadowBan shadowBan) {
-        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS);
+        super(shadowBan, ListenerPriority.MONITOR, LISTENING_PACKETS, ListenerOptions.ASYNC);
         this.shadowBan = shadowBan;
     }
 
