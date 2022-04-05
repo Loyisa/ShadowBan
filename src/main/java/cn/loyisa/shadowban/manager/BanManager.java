@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -16,12 +17,12 @@ import java.util.stream.Collectors;
 
 /**
  * 封禁管理模块
- *
+ * <p>
  * 管理玩家是否被shadow ban, 以及处理玩家ban/unban
  *
  * @author RE
  */
-public class BanManager{
+public class BanManager {
     // 主类依赖
     private final ShadowBan shadowBan;
 
@@ -54,7 +55,7 @@ public class BanManager{
      * @param uuid 检查的玩家UUID
      * @return 是否被shadow ban
      */
-    public boolean isBanned(UUID uuid){
+    public boolean isBanned(UUID uuid) {
         return shadowBanMap.containsKey(uuid);
     }
 
@@ -69,7 +70,7 @@ public class BanManager{
                 + RandomUtils.nextLong(config.getLong("banwave.minbantime"), config.getLong("banwave.maxbantime")) * 1000;
 
         // 只在该玩家在线的时候丢进缓存
-        if(player.isOnline()) {
+        if (player.isOnline()) {
             this.add(player.getUniqueId(), banTime);
         }
 
@@ -91,7 +92,7 @@ public class BanManager{
      *
      * @param player 玩家对象
      */
-    public void load(Player player){
+    public void load(Player player) {
         TaskUtils.taskAsync(() -> {
             shadowBan.getStorageManager().getStorageEngine().load(player).ifPresent(time -> {
                 add(player.getUniqueId(), time);
@@ -102,8 +103,8 @@ public class BanManager{
     /**
      * 将玩家添加到 shadow ban 缓存
      */
-    public void add(UUID uuid, Long time){
-        if(Bukkit.getPlayer(uuid) == null) return;
+    public void add(UUID uuid, Long time) {
+        if (Bukkit.getPlayer(uuid) == null) return;
 
         shadowBanMap.put(uuid, time);
     }
@@ -120,15 +121,17 @@ public class BanManager{
     /**
      * 获取封禁ready的玩家
      *
-     * (TODO: Java Stream性能似乎不是很好，是不是应该改成普通forEach?)
-     *
      * @return 封禁ready的玩家
      */
     public Set<UUID> getBanReadyPlayers() {
-        return shadowBanMap.entrySet().stream()
-                .filter(entry -> System.currentTimeMillis() >= entry.getValue())
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toSet());
+        Set<UUID> set = new HashSet<>();
+        for (Map.Entry<UUID, Long> entry : shadowBanMap.entrySet()) {
+            if (System.currentTimeMillis() >= entry.getValue()) {
+                UUID key = entry.getKey();
+                set.add(key);
+            }
+        }
+        return set;
     }
 
     public Map<UUID, Long> getShadowBanMap() {

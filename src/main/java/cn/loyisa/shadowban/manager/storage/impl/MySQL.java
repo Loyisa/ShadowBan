@@ -44,9 +44,9 @@ public class MySQL extends StorageEngine {
     private void createTable() {
         try (Connection con = hikari.getConnection();
              Statement statement = con.createStatement()) {
-            String tableprefix = config.getString("database.tableprefix");
+            String tableprefix = config.getString("database.tableprefix", "");
             statement.executeUpdate(
-                    "create table if not exists `" + (tableprefix != null ? tableprefix : "") + "shadowban`(" +
+                    "create table if not exists `" + tableprefix + "shadowban`(" +
                             "`uuid`             VARCHAR(36)        NOT NULL," +
                             "`playername`       VARCHAR(16)        NOT NULL," +
                             "`bantime`          BIGINT             NOT NULL," +
@@ -75,9 +75,9 @@ public class MySQL extends StorageEngine {
 
     @Override
     public OptionalLong load(OfflinePlayer player) {
-        String tableprefix = config.getString("database.tableprefix");
+        String tableprefix = config.getString("database.tableprefix", "");
         try (Connection con = hikari.getConnection();
-             PreparedStatement statement = con.prepareStatement("SELECT * FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
+             PreparedStatement statement = con.prepareStatement("SELECT * FROM " + tableprefix + "shadowban WHERE uuid=?")) {
             statement.setString(1, player.getUniqueId().toString());
             try (ResultSet rs = statement.executeQuery()) {
                 // Query player record
@@ -96,10 +96,10 @@ public class MySQL extends StorageEngine {
 
     @Override
     public void save(OfflinePlayer player, Long time) {
-        String tableprefix = config.getString("database.tableprefix");
+        String tableprefix = config.getString("database.tableprefix", "");
         try (Connection con = hikari.getConnection();
              PreparedStatement statement = con.prepareStatement(
-                     "INSERT INTO " + (tableprefix != null ? tableprefix : "") + "shadowban (`uuid`, `playername`, `bantime`) VALUES (?,?,?)" +
+                     "INSERT INTO " + tableprefix + "shadowban (`uuid`, `playername`, `bantime`) VALUES (?,?,?)" +
                              " on duplicate key update playername=values(playername), bantime=values(bantime)")) {
             statement.setString(1, player.getUniqueId().toString());
             statement.setString(2, player.getName());
@@ -112,9 +112,9 @@ public class MySQL extends StorageEngine {
 
     @Override
     public void remove(OfflinePlayer player) {
-        String tableprefix = config.getString("database.tableprefix");
+        String tableprefix = config.getString("database.tableprefix", "");
         try (Connection con = hikari.getConnection();
-             PreparedStatement statement = con.prepareStatement("DELETE FROM " + (tableprefix != null ? tableprefix : "") + "shadowban WHERE uuid=?")) {
+             PreparedStatement statement = con.prepareStatement("DELETE FROM " + tableprefix + "shadowban WHERE uuid=?")) {
             statement.setString(1, player.getUniqueId().toString());
             statement.execute();
         } catch (SQLException e) {

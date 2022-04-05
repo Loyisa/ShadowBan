@@ -38,9 +38,9 @@ public class PlayerListener implements Listener {
         shadowBan.getBanManager().remove(player);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
     public void onPlayerDamaged(EntityDamageByEntityEvent event) {
-        if (event.isCancelled() || !config.getString("method").equalsIgnoreCase("damagerekt")) {
+        if (!config.getString("method").equalsIgnoreCase("damagerekt")) {
             return;
         }
         Entity damager = event.getDamager();
