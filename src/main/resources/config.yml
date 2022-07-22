@@ -1,68 +1,72 @@
-#这里是ShadowBan插件的配置文件
-#Here is the configuration file of ShadowBan plugin
+# 这里是ShadowBan插件的配置文件
+# Here is the configuration file of ShadowBan plugin
 
-#当玩家被加入ShadowBan列表后
-#When a player is added to the ShadowBan list
+# 当玩家被加入ShadowBan列表后
+# When a player is added to the ShadowBan list
 
-#ShadowBan 就会开始限制玩家(取决于模式)
-#ShadowBan will start to limit the player (depending on the mode)
+# ShadowBan 就会开始限制玩家(取决于模式)
+# ShadowBan will start to limit the player (depending on the mode)
 
-#同时ShadowBan提供了BanWave功能 会给玩家随机一个延迟Ban时间
-#ShadowBan also provides the BanWave function which will give a random delay time to the player to be banned
+# 同时ShadowBan提供了BanWave功能 会给玩家随机一个延迟Ban时间
+# ShadowBan also provides the BanWave function which will give a random delay time to the player to be banned
 
-#到达被ban时间后 执行banCommands的指令
-#When the time to be banned is reached, execute the banCommands commands
+# 到达被ban时间后 执行banCommands的指令
+# When the time to be banned is reached, execute the banCommands commands
 
-#对玩家实施ShadowBan的模式
-#The mode of ShadowBan for the player
+# 对玩家实施ShadowBan的模式
+# The mode of ShadowBan for the player
 
-#fakelag: 伪装服务器卡顿
-#fakelag: make the server fakelag
-#damagerekt: 修改玩家的攻击伤害 并修改被攻击玩家的伤害
-#damagerekt: modify the player's attack damage and modify the damage of the player being attacked
+# fakelag: 伪装服务器卡顿
+# fakelag: make the server fakelag
+# damagerekt: 修改玩家的攻击伤害 并修改被攻击玩家的伤害
+# damagerekt: modify the player's attack damage and modify the damage of the player being attacked
 method: damagerekt
 
-#damagerekt模式的配置
-#The configuration of damagerekt mode
+# damagerekt模式的配置
+# The configuration of damagerekt mode
 damagerekt:
-  #当该名玩家在ShadowBan列表中 攻击的时候随机取消
-  #When this player is in the ShadowBan list and attack, random cancel
+  # 当该名玩家在ShadowBan列表中 攻击的时候随机取消
+  # When this player is in the ShadowBan list and attack, random cancel
   randomhit: true
-  #取消被ShadowBan列表中的玩家攻击时造成的击退
-  #Cancel the knockback caused by the player in the ShadowBan list when attacking
+  # 取消被ShadowBan列表中的玩家攻击时造成的击退
+  # Cancel the knockback caused by the player in the ShadowBan list when attacking
   cancelkb: true
-  #ShadowBan列表中的玩家的攻击伤害倍率
-  #The damage multiplier of the player in the ShadowBan list
+  # ShadowBan列表中的玩家的攻击伤害倍率
+  # The damage multiplier of the player in the ShadowBan list
   multiple1: 0
-  #攻击ShadowBan列表中玩家时的攻击伤害倍数
-  #The damage multiplier of the player when attacking the player in the ShadowBan list
+  # 攻击ShadowBan列表中玩家时的攻击伤害倍数
+  # The damage multiplier of the player when attacking the player in the ShadowBan list
   multiple2: 2
-  #当该名玩家在ShadowBan列表中 破坏方块随机取消
-  #When this player is in the ShadowBan list and break the block, random cancel
+  # 当该名玩家在ShadowBan列表中 破坏方块随机取消
+  # When this player is in the ShadowBan list and break the block, random cancel
   randombreak: true
-  #当该名玩家在ShadowBan列表中 放置方块随机取消
-  #When this player is in the ShadowBan list and place the block, random cancel
+  # 当该名玩家在ShadowBan列表中 放置方块随机取消
+  # When this player is in the ShadowBan list and place the block, random cancel
   randomplace: true
 
-#ShadowBan会在最短时间和最长时间中随机 （单位:秒）
-#ShadowBan will randomly in the shortest time and the longest time (unit: seconds)
+# ShadowBan会在最短时间和最长时间中随机 （单位:秒）
+# ShadowBan will randomly in the shortest time and the longest time (unit: seconds)
 banwave:
-  #最短被Ban时间
+  # 最短ban延迟时间
+  # The shortest ban delay time
   minbantime: 1800
-  #最长被ban时间
+  # 最长Ban延迟时间
+  # The longest ban delay time
   maxbantime: 3600
 
-#可用选项:
-#Available options:
-# MySQL
-# Yaml
+# 可用选项:
+# Available options:
+#  MySQL
+#  Yaml
+#  SQLite
 storage-method: Yaml
 
-#MySQL数据库
-#MySQL database
+# MySQL数据库
+# MySQL database
 database:
-  #数据库地址(端口也写这里)
-  #Database address (port also write here)
+  # 数据库地址(端口也写这里)
+  # Database address (port also write here)
+  # example: localhost:3306
   address: localhost
   database: shadowban
   username: shadowban
@@ -72,20 +76,20 @@ database:
   characterencoding: utf8
   useunicode: true
 
-#当玩家被加入ShadowBan列表后, 会同时进入BanWave
-#当到达时间后 执行以下指令
-#When a player is added to the ShadowBan list, he will also enter BanWave
-#When the time is reached, execute the following commands
-# 支持placeholderapi
-# placeholderapi is supported
-#如果想同时执行多个指令
-#If you want to execute multiple commands
-#banCommands:
-# - "指令1"
-# - "指令2"
+# 当玩家被加入ShadowBan列表后, 会同时进入BanWave
+# 当到达时间后 执行以下指令
+# When a player is added to the ShadowBan list, he/she will also enter BanWave
+# When the time is reached, execute the following commands
+#  支持placeholderapi
+#  placeholderapi is supported
+# 如果想同时执行多个指令
+# If you want to execute multiple commands
+# banCommands:
+#  - "指令1"
+#  - "指令2"
 
-#指令列表:
-#Command list:
+# 指令列表:
+# Command list:
 banCommands: "ban %player_name%"
 
 
