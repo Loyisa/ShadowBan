@@ -4,12 +4,9 @@ import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.commands.SubCommand;
 import cn.loyisa.shadowban.enums.Messages;
 import cn.loyisa.shadowban.enums.Permissions;
-import cn.loyisa.shadowban.utils.RandomUtils;
-import cn.loyisa.shadowban.utils.TaskUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class BanCommand extends SubCommand {
@@ -59,7 +56,8 @@ public class BanCommand extends SubCommand {
                 shadowBan.getBanManager().ban(player);
                 sender.sendMessage(Messages.ADDING_TO_BAN_LIST.getMessage());
             } else {
-                sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
+                if (sender instanceof Player)
+                    sender.sendMessage(Messages.ADDED_TO_BAN_LIST.getMessage());
             }
         }
     }
