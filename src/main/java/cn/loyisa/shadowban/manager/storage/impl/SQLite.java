@@ -2,6 +2,7 @@ package cn.loyisa.shadowban.manager.storage.impl;
 
 import cn.loyisa.shadowban.ShadowBan;
 import cn.loyisa.shadowban.manager.storage.StorageEngine;
+import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,8 +14,8 @@ import java.util.OptionalLong;
 
 public class SQLite extends StorageEngine {
 
+    private HikariDataSource hikari;
     private FileConfiguration config;
-    private Connection conn;
 
     public SQLite(ShadowBan shadowBan) {
         super(shadowBan);
@@ -24,30 +25,25 @@ public class SQLite extends StorageEngine {
     public void init() {
         config = shadowBan.getConfigManager().getConfig(); // Read config here
         File file = new File(shadowBan.getDataFolder() + "/PlayerData.db");
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdir();
-        }
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            DriverManager.registerDriver((Driver) Bukkit.getServer().getClass().getClassLoader().loadClass("org.sqlite.JDBC").newInstance());
-            this.conn = DriverManager.getConnection("jdbc:sqlite:" + file);
-        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-            if (ex instanceof ClassNotFoundException) {
-                shadowBan.getLogger().info("SQLite connection failed! 润了");
-                shadowBan.getServer().getPluginManager().disablePlugin(shadowBan);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            ex.printStackTrace();
         }
-        createTable();
+        hikari = new HikariDataSource();
+        hikari.setPoolName("ShadowBan-Hikari");
+        hikari.setDriverClassName("org.sqlite.JDBC");
+        hikari.setJdbcUrl("jdbc:sqlite:" + file);
+        hikari.setConnectionTestQuery("SELECT 1");
         shadowBan.getLogger().info("SQLite connected!");
+        createTable();
     }
 
     private void createTable() {
-        try (Statement stmt = conn.createStatement()) {
+        try (Connection con = hikari.getConnection();
+             Statement stmt = con.createStatement()) {
             String prefix = config.getString("database.tableprefix", "");
             stmt.executeUpdate(
                     "create table if not exists `" + prefix + "shadowban`(" +
@@ -63,19 +59,16 @@ public class SQLite extends StorageEngine {
     @Override
     public void close() {
         // Close database connection
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        if (hikari != null) {
+            hikari.close();
         }
     }
 
     @Override
     public OptionalLong load(OfflinePlayer player) {
         String prefix = config.getString("database.tableprefix", "");
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + prefix + "shadowban WHERE uuid=?")) {
+        try (Connection con = hikari.getConnection();
+             PreparedStatement stmt = con.prepareStatement("SELECT * FROM " + prefix + "shadowban WHERE uuid=?")) {
             stmt.setString(1, player.getUniqueId().toString());
             try (ResultSet rs = stmt.executeQuery()) {
                 // Query player record
@@ -100,9 +93,10 @@ public class SQLite extends StorageEngine {
         String updateSql = "UPDATE " + table + " SET " +
                 "playername='" + name + "', bantime='" + time + "' WHERE uuid = '" + uuid + "'";
         String insertSql = "INSERT INTO " + table + "(uuid, playername, bantime) VALUES ('" + uuid + "', '" + name + "', '" + time + "')";
-        try (PreparedStatement stmt = conn.prepareStatement(
-                conn.prepareStatement("SELECT * FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "'").executeQuery().next()
-                        ? updateSql : insertSql)) {
+        try (Connection con = hikari.getConnection();
+             PreparedStatement stmt = con.prepareStatement(
+                     con.prepareStatement("SELECT * FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "'").executeQuery().next()
+                             ? updateSql : insertSql)) {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,7 +106,8 @@ public class SQLite extends StorageEngine {
     @Override
     public void remove(OfflinePlayer player) {
         String prefix = config.getString("database.tableprefix", "");
-        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + prefix + "shadowban WHERE uuid=?")) {
+        try (Connection con = hikari.getConnection();
+             PreparedStatement stmt = con.prepareStatement("DELETE FROM " + prefix + "shadowban WHERE uuid=?")) {
             stmt.setString(1, player.getUniqueId().toString());
             stmt.execute();
         } catch (SQLException e) {
