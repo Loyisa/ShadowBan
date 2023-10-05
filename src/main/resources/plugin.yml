@@ -1,0 +1,21 @@
+name: ShadowBan
+version: '${version}'
+authors:
+  - Loyisa
+main: dev.diona.shadowban.ShadowBan
+depend:
+  - ProtocolLib
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  shadowban:
+    aliases:
+      - sban
+      - sdb
+    description: "The Shadowban command"
+
+permissions:
+  shadowban.use:
+    description: "Use Shadowban"
+    default: op

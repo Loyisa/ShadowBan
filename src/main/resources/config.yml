@@ -1,0 +1,8 @@
+# ShadowBan's config file
+
+# ShadowBan ban method
+# Available methods:
+#   - fakelag
+#   - fun
+#   - randomban
+ban-method: fakelag
